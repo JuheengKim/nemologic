@@ -1,7 +1,14 @@
 #include "coloring.h"
 
+design d[10][20];
+
+int result = 0;
+int x=11, y=6;
+int test = 1;
+FILE *fp_ = NULL;
+
 int start(char *filename) {
-//int main (int a, char *b[]) { 
+
     WINDOW * mainwin, * childwin;
 
     int key;
@@ -9,8 +16,8 @@ int start(char *filename) {
     int q = 10, p = 10;
     int row_x = 8, row_y = 6;
     int col_x = 11, col_y = 4;
-    //FILE *fp = fopen(b[1], "r");
-    FILE *fp = open(filename, "r");
+
+    FILE *fp = fopen(filename, "r");
 
     mainwin = initscr();
 
@@ -74,7 +81,7 @@ int start(char *filename) {
      	test++;
 	fclose(fp);
 
-	insertAnswer(b[1]);
+	insertAnswer(filename);
  
 	//define initial position
 	move(y, x);    
@@ -131,7 +138,41 @@ int start(char *filename) {
 			move(100,100);
 			if (result == 0) addstr("fail");
 			else addstr("success");
-		}		
+		} else if (key == 'r'){
+			for(i=0;i<10;i++){
+				for(j=0;j<20;j=j+2){
+					if(d[i][j].check == 1 || d[i][j].check == -1){
+						d[i][j].check = 0;
+						init_pair(test, COLOR_WHITE, COLOR_BLACK);
+						attron(COLOR_PAIR(test));
+						move(i+6, j+11);
+						addstr(" ");
+	
+						attroff(COLOR_PAIR(test));
+						refresh();
+						test++;
+					}
+
+				}
+			}
+			x=11;
+			y=6;
+			move(y, x);
+			refresh();
+			
+		} else if (key == 'p'){
+			d[y-6][x-11].check = -1;
+			init_pair(test, COLOR_MAGENTA, COLOR_RED);
+			attron(COLOR_PAIR(test));
+			move(y, x);
+			addstr(" ");
+			
+			attroff(COLOR_PAIR(test));
+			refresh();
+			move(y, x);
+			refresh();
+			test++;
+		}			
 		else {
 			result = 1;
 		}

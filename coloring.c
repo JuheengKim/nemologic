@@ -1,7 +1,9 @@
 //    ./coloring filename
 //ex) ./coloring doan1
-int start(char *filename[]) {
- 
+#include "coloring.h"
+
+//int start(char *filename) {
+int main (int a, char *b) { 
     WINDOW * mainwin, * childwin;
 
     int key;
@@ -9,7 +11,7 @@ int start(char *filename[]) {
     int q = 10, p = 10;
     int row_x = 8, row_y = 6;
     int col_x = 11, col_y = 4;
-    FILE *fp = fopen(argv[1], "r");
+    FILE *fp = fopen(b, "r");
 
     mainwin = initscr();
 

@@ -12,4 +12,4 @@ int result = 0;
 int x=11, y=6;
 int test = 1;
 
-int start(char *filename[]);
+int start(char *filename);

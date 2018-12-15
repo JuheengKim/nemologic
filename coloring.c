@@ -2,8 +2,8 @@
 //ex) ./coloring doan1
 #include "coloring.h"
 
-//int start(char *filename) {
-int main (int a, char *b) { 
+int start(char *filename) {
+//int main (int a, char *b) { 
     WINDOW * mainwin, * childwin;
 
     int key;
@@ -11,7 +11,8 @@ int main (int a, char *b) {
     int q = 10, p = 10;
     int row_x = 8, row_y = 6;
     int col_x = 11, col_y = 4;
-    FILE *fp = fopen(b, "r");
+    //FILE *fp = fopen(b, "r");
+    FILE *fp = open(filename, "r");
 
     mainwin = initscr();
 

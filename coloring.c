@@ -1,9 +1,7 @@
-//    ./coloring filename
-//ex) ./coloring doan1
 #include "coloring.h"
 
 int start(char *filename) {
-//int main (int a, char *b) { 
+//int main (int a, char *b[]) { 
     WINDOW * mainwin, * childwin;
 
     int key;
@@ -11,7 +9,7 @@ int start(char *filename) {
     int q = 10, p = 10;
     int row_x = 8, row_y = 6;
     int col_x = 11, col_y = 4;
-    //FILE *fp = fopen(b, "r");
+    //FILE *fp = fopen(b[1], "r");
     FILE *fp = open(filename, "r");
 
     mainwin = initscr();
@@ -21,7 +19,7 @@ int start(char *filename) {
     noecho();
     keypad(mainwin, TRUE);
 
-   // create childwin and sketch design 
+    // create childwin and sketch design 
     childwin = subwin(mainwin, 12, 21, 5, 10);
     box(childwin, 0, 0);
 
@@ -75,6 +73,8 @@ int start(char *filename) {
       	}
      	test++;
 	fclose(fp);
+
+	insertAnswer(b[1]);
  
 	//define initial position
 	move(y, x);    
@@ -110,12 +110,12 @@ int start(char *filename) {
 			else
 				x += 2;
 		} else if (key == ' ') {
-			if (!d[y-6][x-11].check || d[y-6][x-11].check == 0) { 
+			if (d[y-6][x-11].check == 0) { 
 				d[y-6][x-11].check = 1;
 				init_pair(test, COLOR_BLACK, COLOR_WHITE);
 			}else {
 				d[y-6][x-11].check = 0;
-				init_pair(test, COLOR_BLACK, COLOR_BLACK);
+				init_pair(test, COLOR_WHITE, COLOR_BLACK);
 			}
 			attron(COLOR_PAIR(test));
                         move(y, x);
@@ -126,6 +126,11 @@ int start(char *filename) {
                         move(y, x);
                         refresh();
                         test++;
+		} else if ( key == 'v') {
+			int result = checkAnswer();
+			move(100,100);
+			if (result == 0) addstr("fail");
+			else addstr("success");
 		}		
 		else {
 			result = 1;
@@ -139,4 +144,34 @@ int start(char *filename) {
     refresh();
  
     return EXIT_SUCCESS;
+}
+
+void insertAnswer(char *filename) {
+	int i, j, value;	
+	char answerFile[10] = "a_";
+	strcat(answerFile, filename);
+         
+	fp_ = fopen(answerFile, "r");
+
+	for(i=0; i<10; i++) {
+		for (j=0; j<19; j+=2){
+			fscanf(fp_, "%d", &value);
+			d[i][j].answer = value;
+			d[i][j].check = 0;
+		}
+	}
+	fclose(fp_);
+}
+
+int checkAnswer() {
+	int i, j, result = 1;
+      	for(i=0; i<10; i++) {
+                for (j=0; j<19; j+=2){
+             		if (d[i][j].answer != d[i][j].check){
+				result = 0;
+				break;
+			}
+                }
+        }
+	return result;
 }

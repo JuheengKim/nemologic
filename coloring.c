@@ -117,7 +117,7 @@ int start(char *filename) {
 			else
 				x += 2;
 		} else if (key == ' ') {
-			if (d[y-6][x-11].check == 0) { 
+			if (!d[y-6][x-11].check || d[y-6][x-11].check == 0) { 
 				d[y-6][x-11].check = 1;
 				init_pair(test, COLOR_BLACK, COLOR_WHITE);
 			}else {
@@ -133,15 +133,10 @@ int start(char *filename) {
                         move(y, x);
                         refresh();
                         test++;
-		} else if ( key == 'v') {
-			int result = checkAnswer();
-			move(100,100);
-			if (result == 0) addstr("fail");
-			else addstr("success");
 		} else if (key == 'r'){
 			for(i=0;i<10;i++){
 				for(j=0;j<20;j=j+2){
-					if(d[i][j].check == 1 || d[i][j].check == -1){
+					if(d[i][j].check == 1||d[i][j].check == -1){
 						d[i][j].check = 0;
 						init_pair(test, COLOR_WHITE, COLOR_BLACK);
 						attron(COLOR_PAIR(test));
@@ -160,23 +155,41 @@ int start(char *filename) {
 			move(y, x);
 			refresh();
 			
-		} else if (key == 'p'){
+		}
+		else if (key == 'd'){
+			for(i=0;i<10;i++){
+				for(j=0;j<20;j=j+2){
+					if(d[i][j].check == -1){
+						d[i][j].check = 0;
+						init_pair(test, COLOR_WHITE, COLOR_BLACK);
+						attron(COLOR_PAIR(test));
+						move(i+6, j+11);
+						addstr(" ");
+
+						attroff(COLOR_PAIR(test));
+						refresh();
+						test++;
+					}
+				}
+			}
+			move(y, x);
+			refresh();
+		}else if (key == 'f'){
 			d[y-6][x-11].check = -1;
 			init_pair(test, COLOR_MAGENTA, COLOR_RED);
-			attron(COLOR_PAIR(test));
-			move(y, x);
-			addstr(" ");
-			
-			attroff(COLOR_PAIR(test));
-			refresh();
-			move(y, x);
-			refresh();
-			test++;
-		}			
-		else {
+      			attron(COLOR_PAIR(test));
+         		move(y, x);
+         		addstr(" ");
+         
+        		attroff(COLOR_PAIR(test));
+        		refresh();
+         		move(y, x);
+         		refresh();
+         		test++;
+      		}         		
+		else if (key=='q') {
 			result = 1;
 		}
-		refresh();
 	}
 
     delwin(childwin);

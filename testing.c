@@ -11,11 +11,10 @@ int main(int argc, char **argv)
     int i, c;
     int key = 0;
     int resulting = 0;
-    char *title  = "COLORING LOVE";
+    char *title  = "***NEMO-LOGIC LOVE***";
     int szer, dlug; 
     initscr();  
     keypad(stdscr, TRUE);
-
     start_color();
 
     getmaxyx(stdscr, szer, dlug); 
@@ -36,6 +35,7 @@ int main(int argc, char **argv)
         "doan4",
         "Exit",
     };
+
     int wybor;
     int zaznacz=0;
 
@@ -104,3 +104,5 @@ int main(int argc, char **argv)
     endwin();
     return 0;
 }
+
+

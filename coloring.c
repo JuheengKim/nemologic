@@ -9,7 +9,7 @@ FILE *fp_ = NULL;
 
 int start(char *filename) {
 
-    WINDOW * mainwin, * childwin;
+    WINDOW * mainwin, * childwin, *message;
 
     int key;
     int count, value, i, j;
@@ -29,6 +29,11 @@ int start(char *filename) {
     // create childwin and sketch design 
     childwin = subwin(mainwin, 12, 21, 5, 10);
     box(childwin, 0, 0);
+
+    //keyinfo box
+    move(18, 4);
+    addstr("spacebar: coloring, 'r':clear, 'f':flag, 'd':del flag, 'c':check, 'q':quit");
+    refresh();
 
     //row 
     while (!feof(fp)) {
@@ -93,6 +98,8 @@ int start(char *filename) {
 		key = getch();
 		
 		if (key == KEY_UP){
+			//move(19,4);
+                        //addstr("   ");
 			y -= 1;	
 			if ( y > 5 ) 
 				move(y,x);		
@@ -174,7 +181,7 @@ int start(char *filename) {
 			}
 			move(y, x);
 			refresh();
-		}else if (key == 'f'){
+		} else if (key == 'f'){
 			d[y-6][x-11].check = -1;
 			init_pair(test, COLOR_MAGENTA, COLOR_RED);
       			attron(COLOR_PAIR(test));
@@ -186,7 +193,13 @@ int start(char *filename) {
          		move(y, x);
          		refresh();
          		test++;
-      		}         		
+      		} else if ( key == 'c') {
+			int result = checkAnswer();
+			move(19,4);
+			if (result == 0) addstr("result: fail");
+			else addstr("result: success");
+			move(y, x);
+		}        		
 		else if (key=='q') {
 			result = 1;
 		}
